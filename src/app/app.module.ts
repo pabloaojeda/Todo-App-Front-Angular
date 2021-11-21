@@ -8,6 +8,9 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { TodoComponent } from './todo/todo.component';
+import { MaterialModule } from './material.module';
+import { FormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -15,14 +18,21 @@ import { TodoComponent } from './todo/todo.component';
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    TodoComponent
+    TodoComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule,
+    FormsModule,
+    ToastrModule.forRoot({
+      closeButton: true,
+      progressBar: true,
+      progressAnimation: 'increasing',
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
