@@ -11,6 +11,7 @@ import { TodoComponent } from './todo/todo.component';
 import { MaterialModule } from './material.module';
 import { FormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
       progressBar: true,
       progressAnimation: 'increasing',
     }),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

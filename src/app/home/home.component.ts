@@ -17,7 +17,12 @@ export class HomeComponent implements OnInit {
 
   constructor(private ApiService: ApiService, private dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.ApiService.getAllTodos().subscribe((todos) => {
+      this.todos = todos;
+      this.filterTodos = this.todos;
+    });
+  }
 
   filterChanged(ev: MatSelectChange) {
     const value = ev.value;
@@ -37,14 +42,35 @@ export class HomeComponent implements OnInit {
       role: 'dialog',
       height: '500px',
     });
+
+    dialogRef.afterClosed().subscribe((data) => {
+      this.ApiService.createTodo(data.title, data.description).subscribe(
+        (result: any) => {
+          console.log(result);
+          this.todos.push(result);
+          this.filterTodos = this.todos;
+        }
+      );
+    });
   }
 
   statusChanged(ev: MatSelectChange, todoId: number, index: number) {
     const value = ev.value;
+    this.ApiService.updateStatus(value, todoId).subscribe((todo) => {
+      this.todos[index] = todo;
+      this.filterTodos = this.todos;
+    });
   }
 
   delete(id: number) {
     if (confirm('Do you want to remove this Todo ?')) {
+      this.ApiService.deleteTodo(id).subscribe((res) => {
+        // @ts-ignore
+        if (res.success) {
+          this.todos = this.todos.filter((t: any) => t.d !== id);
+          this.filterTodos = this.todos;
+        }
+      });
     }
   }
 }
