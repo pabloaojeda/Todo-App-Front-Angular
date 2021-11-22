@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, timeout } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -31,10 +31,10 @@ export class ApiService {
   }
 
   //Getting all Todos
-  getAllTodos() {
+  getAllTodos(): Observable<any> {
     return this.http.get(`${this.API_URL}/todos`, {
       headers: {
-        Autorization: `Bearer ${this.token}`,
+        Authorization: `Bearer ${this.token}`,
       },
     });
   }
@@ -61,7 +61,11 @@ export class ApiService {
               });
           }
         },
-        (err: HttpErrorResponse) => console.log(err.message)
+        (err: HttpErrorResponse) => {
+          this.toast.error('Authentication failed, try again', '', {
+            timeOut: 1000,
+          });
+        }
       );
   }
 
@@ -83,7 +87,7 @@ export class ApiService {
       { title, description },
       {
         headers: {
-          Autorization: `Bearer ${this.token}`,
+          Authorization: `Bearer ${this.token}`,
         },
       }
     );
@@ -95,7 +99,7 @@ export class ApiService {
         { status: statusValue },
         {
           headers: {
-            Autorization: `Bearer ${this.token}`,
+            Authorization: `Bearer ${this.token}`,
           },
         }
       )
@@ -114,7 +118,7 @@ export class ApiService {
     return this.http
       .delete(`${this.API_URL}/todos/${todoId}`, {
         headers: {
-          Autorization: `Bearer ${this.token}`,
+          Authorization: `Bearer ${this.token}`,
         },
       })
       .pipe(

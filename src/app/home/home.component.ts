@@ -11,9 +11,7 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class HomeComponent implements OnInit {
   todos: any = [];
-  filterTodos: any[] = [
-    { title: 'Test', description: 'Test description', status: 'OPEN' },
-  ];
+  filterTodos: any[] = [];
 
   constructor(private ApiService: ApiService, private dialog: MatDialog) {}
 
